@@ -1,53 +1,42 @@
 <?php
-
 require_once '/opt/fmc_repository/Process/Reference/Common/common.php';
+require_once __DIR__ . '/../../Common/common.php';
 
-function list_args()
-{
- 
+function list_args() {
 }
 
+$device_id = substr ( $context ['aws_region'], 3 );
 
-$ip_list = $context['ip_list'];
+$ip_list_string = $context ['ip_list_string'];
+$ip_list_array = explode ( ' ', $ip_list_string );
 
-$counter=100;
-foreach ($ip_list as $ip){
-    logToFile('ip :' . $ip);
+$acl_list_string = $context ['acls'];
+$acl_list_array = explode ( ' ', $acl_list_string );
 
+logToFile ( debug_dump ( $acl_list_array, "CREATE RULE: ACL ARRAY" ) );
+logToFile ( debug_dump ( $ip_list_array, "CREATE RULE: IP ARRAY" ) );
 
-$device_id = substr($context['aws_region'], 3);
+$ip_index=0;
+$ip_count=count($ip_list_array);
+$acl_index=0;
 
-$entries = array("rule_number" => $counter,
-                 "egress" => "false",
-		 "protocol" => "-1",
-                 "port_range_from" => "",
- 		 "port_range_to" => "",
-		 "cidr_block" => $ip."/32",
-		 "rule_action" => "deny");
+for ($ip_index = 0; $ip_index < $ip_count; $ip_index++) { 
 
+  $ip=$ip_list_array[$ip_index];
+  $rule_index = ($ip_index % 18)+1;
 
-$micro_service_vars_array = array();
-$micro_service_vars_array['network_acl_id'] = $context['network_acl_id'];
-$micro_service_vars_array['default'] = $context['default'];
-$micro_service_vars_array['entries'] = array('0' => $entries);
+  logToFile("current IP: " . $ip .  " at index: " . $ip_index);
+  logToFile("acl_index: " . $acl_index);
+  logToFile("rule_index: " . $rule_index);
 
-$network_acl_entry = array('network_acl_entry' => array('0' => $micro_service_vars_array));
+  create_acl_entry ( $device_id, $acl_list_array[$acl_index], $rule_index, $ip );
 
-$response = execute_command_and_verify_response($device_id, CMD_CREATE, $network_acl_entry, "CREATE network_acl_entry");
-$response = json_decode($response, true);
-if ($response['wo_status'] !== ENDED) {
-	$response = prepare_json_response($response['wo_status'], $response['wo_comment'], $context, true);
-	echo $response;
-	exit;
+  if ($ip_index > 0 && $rule_index % 18 ==0) {
+    $acl_index++;
+  }
 }
 
-$response = prepare_json_response(ENDED, "network_acl_entry created successfully on the Device $device_id.", $context, true);
-
-$counter++;
-}
-
-
-
-task_success('Task OK');
+task_success ( $ip_index . ' rules created in ' . ($acl_index+1) . ' Network ACL' );
+exit;
 
 ?>

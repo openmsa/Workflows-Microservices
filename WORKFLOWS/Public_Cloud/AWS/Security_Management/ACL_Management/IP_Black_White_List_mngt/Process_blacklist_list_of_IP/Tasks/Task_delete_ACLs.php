@@ -28,15 +28,13 @@ if (isset($context['acls'])) {
   foreach ($acl_list as $acl_id) {
     delete_acl($device_id, $acl_id, $context);
   }
-
-  $context['acls'] = '';
-  unset($context['acls']);
   task_success($acl_list_size . ' Network ACL deleted from VPC '.$vpc_id);
+
 } else {
   //logToFile("no Network ACL to delete in VPC ".$vpc_id);
   task_success("no Network ACL to delete in VPC ".$vpc_id);
 }
 
-task_success('Task OK');
+
 
 ?>

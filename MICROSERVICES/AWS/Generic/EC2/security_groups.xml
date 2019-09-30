@@ -103,4 +103,14 @@
 {literal}}{/literal}
 </operation>
   </command>
+<command name="DELETE">
+    <rest>Aws\Ec2\Ec2Client
+</rest>
+    <xpath>deleteSecurityGroup
+</xpath>
+    <operation>{literal}{{/literal}
+"GroupId":"{$security_groups.$object_id.object_id}"
+{literal}}{/literal}
+</operation>
+  </command>
 </ObjectDefinition>

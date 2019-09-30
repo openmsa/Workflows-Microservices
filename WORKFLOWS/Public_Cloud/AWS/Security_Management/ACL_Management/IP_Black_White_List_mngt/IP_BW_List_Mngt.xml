@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition>  <information>
     <allowLaunchOnFailedProcess>true</allowLaunchOnFailedProcess>
-    <description/>
+    <description>Automated IP blacklisting on AWS</description>
     <displayField>service_id</displayField>
     <executionDetailsVisibility>5</executionDetailsVisibility>
     <executionMode>TRANSACTION</executionMode>
     <group>Public Cloud|AWS</group>
     <icon>/images/eclipseIcons/page_obj.gif</icon>
-    <name>IP Black/White List Mngt</name>
+    <name>Network Security Enforcement</name>
     <order>10000</order>
     <poolId>0</poolId>
     <readVariableVisibility>5</readVariableVisibility>
@@ -24,57 +24,17 @@
         <sdType manId="17010301" modId="17010301"/>
       </sdTypes>
     </variable>
-    <variable displayName="Acl Id" displayOrder="1" editable="false" isMandatory="true" maxLength="100" name="params.network_acl_id" numberOfRowMax="0" refDeviceIdVar="params.aws_region" startIncrement="0" tableSizeFix="false" type="OBMFRef">
+    <variable displayName="Vpc Id" displayOrder="1" editable="false" isMandatory="true" maxLength="100" name="params.vpc_id" numberOfRowMax="0" refDeviceIdVar="params.aws_region" startIncrement="0" tableSizeFix="false" type="OBMFRef">
       <sections>
         <section>select ACL</section>
       </sections>
       <classes>
-        <class>network_acl</class>
+        <class>vpc</class>
       </classes>
     </variable>
-    <variable default="https://ext-alb-1238716996.us-west-2.elb.amazonaws.com/feeds/Output_SOC_L3BL_L3BL_IPv4Dst" displayName="Url Ip Provider" displayOrder="2" maxLength="100" name="params.url_IP_provider" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String">
+    <variable default="https://ext-alb-1238716996.us-west-2.elb.amazonaws.com/feeds/Output_SOC_L3BL_L3BL_IPv4Dst" displayName="Url Ip Provider" displayOrder="3" maxLength="100" name="params.url_IP_provider" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String">
       <sections>
         <section>select ACL</section>
-      </sections>
-    </variable>
-    <variable default="false" displayName="Default" displayOrder="3" maxLength="100" name="params.default" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="Boolean">
-      <sections>
-        <section>Rule</section>
-      </sections>
-    </variable>
-    <variable displayName="Rule Number" displayOrder="4" maxLength="100" name="params.entries.0.rule_number" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="Integer">
-      <sections>
-        <section>Rule</section>
-      </sections>
-    </variable>
-    <variable default="false" displayName="Egress" displayOrder="5" maxLength="100" name="params.entries.0.egress" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="Boolean">
-      <sections>
-        <section>Rule</section>
-      </sections>
-    </variable>
-    <variable default="-1" displayName="Protocol" displayOrder="6" isMandatory="true" isUserLocked="true" maxLength="100" name="params.entries.0.protocol" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String">
-      <sections>
-        <section>Rule</section>
-      </sections>
-    </variable>
-    <variable displayName="Port From" displayOrder="7" maxLength="100" name="params.entries.0.port_range_from" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String">
-      <sections>
-        <section>Rule</section>
-      </sections>
-    </variable>
-    <variable displayName="Port To" displayOrder="8" maxLength="100" name="params.entries.0.port_range_to" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String">
-      <sections>
-        <section>Rule</section>
-      </sections>
-    </variable>
-    <variable displayName="Cidr Block" displayOrder="9" maxLength="100" name="params.entries.0.cidr_block" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String">
-      <sections>
-        <section>Rule</section>
-      </sections>
-    </variable>
-    <variable default="deny" displayName="Action" displayOrder="10" maxLength="100" name="params.entries.0.rule_action" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String">
-      <sections>
-        <section>Rule</section>
       </sections>
     </variable>
   </variables>  <example>    <content/>  </example>
@@ -100,48 +60,63 @@
     <allowSchedule>false</allowSchedule>
     <type>DELETE</type>
   </process>
-<process name="Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_black_list_single_IP">
+
+<process name="Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_blacklist_list_of_IP">
     <visibility>5</visibility>
-    <displayName>blacklist_single_IP</displayName>
+    <displayName>blacklist list of IP</displayName>
     <icon/>
     <poolId>0</poolId>
     <compensation/>
     <allowSchedule>false</allowSchedule>
     <type>UPDATE</type>
     
-  <task name="Task_create_ACL_entry.php">
-      <processPath>/opt/fmc_repository/Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_black_list_single_IP/Tasks/</processPath>
-      <displayName>create ACL entry</displayName>
-    </task>
-  </process>
-<process name="Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_blacklist_list_of_IP">
-    <visibility>5</visibility>
-    <displayName>blacklist_list_of_IP</displayName>
-    <icon/>
-    <poolId>0</poolId>
-    <compensation/>
-    <allowSchedule>false</allowSchedule>
-    <type>UPDATE</type>
-    <task name="Task_get_IP_from_URL.php">
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+    
+  <task name="Task_get_IP_from_URL.php">
       <processPath>/opt/fmc_repository/Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_blacklist_list_of_IP/Tasks/</processPath>
-      <displayName>get_IP_from_URL</displayName>
+      <displayName>get IP from Database</displayName>
+    </task>
+    <task name="Task_delete_ACLs.php">
+      <processPath>/opt/fmc_repository/Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_blacklist_list_of_IP/Tasks/</processPath>
+      <displayName>clean up ALC</displayName>
+    </task>
+    <task name="Task_create_ACLs.php">
+      <processPath>/opt/fmc_repository/Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_blacklist_list_of_IP/Tasks/</processPath>
+      <displayName>create ACL</displayName>
     </task>
     <task name="Task_create_ACL_rules.php">
       <processPath>/opt/fmc_repository/Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_blacklist_list_of_IP/Tasks/</processPath>
-      <displayName>create_ACL_rules</displayName>
+      <displayName>blacklist IP</displayName>
     </task>
   </process>
 <process name="Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_delete_all_ACL_rules">
     <visibility>5</visibility>
-    <displayName>delete_all_ACL_rules</displayName>
+    <displayName>cleanup ACL</displayName>
     <icon/>
     <poolId>0</poolId>
     <compensation/>
     <allowSchedule>false</allowSchedule>
     <type>UPDATE</type>
-    <task name="Task_delete_ACL_rules.php">
+    
+  
+  <task name="Task_delete_ACL_rules.php">
       <processPath>/opt/fmc_repository/Process/OpenMSA/Public_Cloud/AWS/Security_Management/ACL_Management/IP_Black_White_List_mngt/Process_delete_all_ACL_rules/Tasks/</processPath>
-      <displayName>delete_ACL_rules</displayName>
+      <displayName>cleanup ACL</displayName>
     </task>
   </process>
 </ObjectDefinition>

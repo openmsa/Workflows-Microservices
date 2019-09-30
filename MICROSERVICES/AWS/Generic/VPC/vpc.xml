@@ -24,7 +24,7 @@
     <visibility>5</visibility>
   </information>  <variables frozen="0">
     <variable displayName="Name" displayOrder="0" maxLength="100" name="params.name" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String"/>
-    <variable default="none" displayName="VPC Id" displayOrder="1" editable="false" isMandatory="true" maxLength="100" name="params.object_id" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String"/>
+    <variable displayName="VPC Id" displayOrder="1" editable="false" isMandatory="true" isUserLocked="true" maxLength="100" name="params.object_id" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String"/>
     <variable displayName="CIDR Block" displayOrder="2" maxLength="100" name="params.cidr_block" numberOfRowMax="0" startIncrement="0" type="String"/>
     <variable displayName="vpc_ref" displayOrder="3" maxLength="100" name="params.vpc_ref" numberOfRowMax="0" startIncrement="0" type="String" visible="false"/>
     <variable default="none" displayName="_color" displayOrder="4" editable="false" maxLength="100" name="params._color" numberOfRowMax="0" startIncrement="0" tableSizeFix="false" type="String" visible="false"/>
