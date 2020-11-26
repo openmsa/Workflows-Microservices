@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ObjectDefinition>  <information>
+    <allowLaunchOnFailedProcess>true</allowLaunchOnFailedProcess>
+    <description/>
+    <displayField>service_id</displayField>
+    <executionDetailsVisibility>5</executionDetailsVisibility>
+    <group>VeEX</group>
+    <icon>/images/eclipseIcons/page_obj.gif</icon>
+    <name>VeEX Test Management</name>
+    <order>10000</order>
+    <readVariableVisibility>5</readVariableVisibility>
+    <showDetailedServiceInstances>true</showDetailedServiceInstances>
+    <showProcessExecConsole>false</showProcessExecConsole>
+    <showVariables>false</showVariables>
+    <visibility>5</visibility>
+  </information>  <variables frozen="0">
+    <variable default="UBI23725" displayName="RTU Device Id" displayOrder="0" maxLength="100" name="params.device_id" startIncrement="0" type="Device">
+      <sdTypes>
+        <sdType manId="17010302" modId="17010302"/>
+      </sdTypes>
+    </variable>
+    <variable displayName="Resource Location" displayOrder="1" editable="false" maxLength="100" name="params.RESOURCE_LOCATION" refDeviceIdVar="params.device_id" startIncrement="0" type="OBMFRef">
+      <classes>
+        <class>resource</class>
+      </classes>
+    </variable>
+    <variable displayName="Session Id" displayOrder="2" isMandatory="true" maxLength="100" name="params.SESSION_ID" startIncrement="0" type="Integer"/>
+    <variable default="dual_1ge" displayName="Test Mode" displayOrder="3" displayType="alt" editable="false" maxLength="100" name="params.TEST_MODE" startIncrement="0" type="String">
+      <values>
+        <value displayValue="DUAL_1GE">dual_1ge</value>
+        <value displayValue="DUAL_10GE">dual_10ge</value>
+        <value displayValue="1GE_10GE">1ge_10ge</value>
+        <value displayValue="DUAL_SDH">dual_sdh</value>
+      </values>
+    </variable>
+    <variable default="BOTH" displayName="Flow Control" displayOrder="4" maxLength="100" name="params.FLOW_CONTROL" startIncrement="0" type="String">
+      <values>
+        <value>TX</value>
+        <value>RX</value>
+        <value>BOTH</value>
+        <value>OFF</value>
+      </values>
+    </variable>
+    <variable default="ON" displayName="Auto Negotiation" displayOrder="5" displayType="alt" editable="false" isMandatory="true" maxLength="100" name="params.AUTO_NEGOTIATION" startIncrement="0" type="String">
+      <values>
+        <value displayValue="ON">ON</value>
+        <value displayValue="OFF">OFF</value>
+      </values>
+    </variable>
+    <variable default="1000M" displayName="Speed" displayOrder="6" editable="false" maxLength="100" name="params.SPEED" startIncrement="0" type="String">
+      <values>
+        <value displayValue="100 Mbps">100M</value>
+        <value displayValue="1000 Mbps">1000M</value>
+      </values>
+    </variable>
+    <variable default="3" displayName="No of Streams" displayOrder="7" maxLength="100" name="params.NO_OF_STREAMS" startIncrement="0" type="Integer">
+      <values>
+        <value>1</value>
+        <value>2</value>
+        <value>3</value>
+        <value>4</value>
+        <value>5</value>
+        <value>6</value>
+        <value>7</value>
+        <value>8</value>
+      </values>
+    </variable>
+    <variable default="false" displayName="RTD Measurement" displayOrder="8" isMandatory="true" maxLength="100" name="params.RTD_MEASUREMENT" startIncrement="0" type="Boolean"/>
+    <variable default="1518" displayName="Frame Size" displayOrder="9" maxLength="100" name="params.FRAME_SIZE" startIncrement="0" type="Integer"/>
+    <variable default="00-18-63-00-00-FF" displayName="MAC Source" displayOrder="10" maxLength="100" name="params.MAC_SOURCE" startIncrement="0" type="String"/>
+    <variable default="00-18-63-00-00-FE" displayName="MAC Destination" displayOrder="11" maxLength="100" name="params.MAC_DESTINATION" startIncrement="0" type="String"/>
+    <variable displayName="ES Data Write" displayOrder="12" isUserLocked="true" maxLength="100" name="params.es_data_write" startIncrement="0" type="String"/>
+    <variable displayName="Sleep time (seconds)" displayOrder="13" maxLength="100" name="params.get_result_sleep_time" startIncrement="0" type="Integer"/>
+    <variable displayName="Total time (minutes)" displayOrder="14" maxLength="100" name="params.get_result_total_time" startIncrement="0" type="Integer"/>
+  </variables>  <example>    <content/>  </example>
+  <process name="Process/UBI/Veex_Test_Management/Process_Create_Session">
+    <visibility>5</visibility>
+    <displayName>Create Session</displayName>
+    <icon/>
+    <allowSchedule>false</allowSchedule>
+    <type>CREATE</type>
+    <task name="Task_Session_connect.php">
+      <processPath>/opt/fmc_repository/Process/UBI/Veex_Test_Management/Process_Create_Session/Tasks/</processPath>
+      <displayName>Session connect</displayName>
+    </task>
+    <task name="Task_Create_Config_Vars.php">
+      <processPath>/opt/fmc_repository/Process/UBI/Veex_Test_Management/Process_Create_Session/Tasks/</processPath>
+      <displayName>Create Config Vars</displayName>
+    </task>
+    <task name="/opt/fmc_repository/Process/Reference/MSActivator/Device/Task_msa_device_update_config.php">
+      <processPath/>
+      <displayName>Update Config</displayName>
+    </task>
+  </process>
+  <process name="Process/UBI/Veex_Test_Management/Process_Start">
+    <visibility>5</visibility>
+    <displayName>Start</displayName>
+    <icon/>
+    <allowSchedule>false</allowSchedule>
+    <type>READ</type>
+    <task name="Task_Start.php">
+      <processPath>/opt/fmc_repository/Process/UBI/Veex_Test_Management/Process_Start/Tasks/</processPath>
+      <displayName>Start</displayName>
+    </task>
+  </process>
+  <process name="Process/UBI/Veex_Test_Management/Process_Get_Test_Results">
+    <visibility>5</visibility>
+    <displayName>Get Test Results</displayName>
+    <icon/>
+    <allowSchedule>true</allowSchedule>
+    <type>UPDATE</type>
+    <task name="Task_Get_Results_And_Store_in_ES.php">
+      <processPath>/opt/fmc_repository/Process/UBI/Veex_Test_Management/Process_Get_Test_Results/Tasks/</processPath>
+      <displayName>Get Test Result</displayName>
+    </task>
+  </process>
+  <process name="Process/UBI/Veex_Test_Management/Process_Stop">
+    <visibility>5</visibility>
+    <displayName>Stop</displayName>
+    <icon/>
+    <allowSchedule>false</allowSchedule>
+    <type>READ</type>
+    <task name="Task_Stop.php">
+      <processPath>/opt/fmc_repository/Process/UBI/Veex_Test_Management/Process_Stop/Tasks/</processPath>
+      <displayName>Stop</displayName>
+    </task>
+  </process>
+  <process name="Process/UBI/Veex_Test_Management/Process_Session_Delete">
+    <visibility>5</visibility>
+    <displayName>Delete Session</displayName>
+    <icon/>
+    <allowSchedule>false</allowSchedule>
+    <type>UPDATE</type>
+    <task name="Task_Session_Delete.php">
+      <processPath>/opt/fmc_repository/Process/UBI/Veex_Test_Management/Process_Session_Delete/Tasks/</processPath>
+      <displayName>Session Delete</displayName>
+    </task>
+  </process>
+  <process name="Process/UBI/Veex_Test_Management/Process_Move_To_Trash">
+    <visibility>5</visibility>
+    <displayName>Move To Trash</displayName>
+    <icon/>
+    <allowSchedule>false</allowSchedule>
+    <type>DELETE</type>
+  </process>
+</ObjectDefinition>
