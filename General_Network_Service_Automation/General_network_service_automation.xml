@@ -1,7 +1,7 @@
 <ObjectDefinition>
   <variables frozen="0">
     <variable displayName="Customer name" name="params.customer_name" startIncrement="0" type="String" mandatoryArray="false" visible="true" description="" groupSeparator="" groupDisplayName="" displayOrder="0" increment="0" refServiceURI="" keepOnImport="false" editable="true" onlyDetailView="false" localVarNameMatch="" remoteVarNameMatch="" arrayCanAdd="true" arrayCanRemove="true" arrayCanMove="true" arrayCanEdit="true" default="Planet Express Inc." isMandatory="false" isUserLocked="false" isGrouped="false" isSearchable="false" isUniqueGlobal="false"/>
-    <variable displayName="IPAM ME" name="params.ipam_device_id" startIncrement="0" type="Device" mandatoryArray="false" visible="true" description="" groupSeparator="" groupDisplayName="" displayOrder="0" increment="0" refServiceURI="" keepOnImport="false" editable="false" onlyDetailView="false" localVarNameMatch="" remoteVarNameMatch="" arrayCanAdd="true" arrayCanRemove="true" arrayCanMove="true" arrayCanEdit="true" displayNameHeader="" fullDisplayName="" isMandatory="false" isUserLocked="false" isGrouped="false" isSearchable="false" isUniqueGlobal="false">
+    <variable displayName="IPAM ME" name="params.ipam_device_id" startIncrement="0" type="Device" mandatoryArray="false" visible="true" description="" groupSeparator="" groupDisplayName="" displayOrder="0" increment="0" refServiceURI="" keepOnImport="false" editable="false" onlyDetailView="false" localVarNameMatch="" remoteVarNameMatch="" arrayCanAdd="true" arrayCanRemove="true" arrayCanMove="true" arrayCanEdit="true" displayNameHeader="" fullDisplayName="" default="UBI1244" isMandatory="false" isUserLocked="false" isGrouped="false" isSearchable="false" isUniqueGlobal="false">
       <sdTypes>
         <sdTypes manId="191119" modId="29092020"/>
       </sdTypes>
@@ -23,6 +23,7 @@
     <displayName>Start to work with customer</displayName>
     <type>CREATE</type>
     <visibility>0</visibility>
+    <allowSchedule/>
     <task name="Start_to_work_with_customer_Define_variables.py">
       <processPath>/opt/fmc_repository/Process/General_Network_Service_Automation</processPath>
       <displayName>Define variables</displayName>
@@ -36,11 +37,13 @@
     <displayName>Delete</displayName>
     <type>DELETE</type>
     <visibility>5</visibility>
+    <allowSchedule/>
   </process>
   <process name="Process/General_Network_Service_Automation/New_CE">
     <displayName>New CE</displayName>
     <type>UPDATE</type>
     <visibility>0</visibility>
+    <allowSchedule/>
     <task name="New_CE_Create_CE_device.py">
       <processPath>/opt/fmc_repository/Process/General_Network_Service_Automation</processPath>
       <displayName>Create CE device</displayName>
@@ -54,6 +57,7 @@
     <displayName>New L3VPN</displayName>
     <type>UPDATE</type>
     <visibility>5</visibility>
+    <allowSchedule/>
     <task name="New_L3VPN_Prepare_IP_address_schema.py">
       <processPath>/opt/fmc_repository/Process/General_Network_Service_Automation</processPath>
       <displayName>Prepare IP address schema</displayName>
@@ -71,11 +75,13 @@
     <displayName>New L2VPN</displayName>
     <type>UPDATE</type>
     <visibility>5</visibility>
+    <allowSchedule/>
   </process>
   <process name="Process/General_network_service_automation/Remove_L3VPN">
     <displayName>Remove L3VPN</displayName>
     <type>UPDATE</type>
     <visibility>5</visibility>
+    <allowSchedule/>
     <task name="Remove_L3VPN_Gather_information_from_IPAM.py">
       <processPath>/opt/fmc_repository/Process/General_Network_Service_Automation</processPath>
       <displayName>Gather information from IPAM</displayName>
@@ -93,6 +99,7 @@
     <displayName>Decommission CE</displayName>
     <type>UPDATE</type>
     <visibility>5</visibility>
+    <allowSchedule/>
     <task name="Decommission_CE_Remove_CE_and_update_IPAM.py">
       <processPath>/opt/fmc_repository/Process/General_Network_Service_Automation</processPath>
       <displayName>Remove CE and update IPAM</displayName>
@@ -104,7 +111,7 @@
     <displayField>service_id</displayField>
     <serviceTaskType>python</serviceTaskType>
     <order>10000</order>
-    <visibility>0</visibility>
+    <visibility>5</visibility>
     <name>General network service automation</name>
     <group/>
   </information>

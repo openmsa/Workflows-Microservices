@@ -15,18 +15,17 @@ function _topology_exist_object_this_instance($nodeId) {
  * creates a new topology element for a managed entity
  * return: the node index in the array $context['Nodes']
  */ 
-function createTopology($nodeId, $name, $device_nature, $subtype, $image, $status) {
+function createTopology($nodeId, $name, $device_nature, $subtype, $image) {
 	global $context;
-	logTofile("*** createTopology  nodeId: ".$nodeId. " name " .$name." subtype ". $subtype." status ".$status." \n");
-
+	
 	$place = _topology_exist_object_this_instance($nodeId);
 
 	if ($place == -1) {
 		$context['Nodes'][] = array(
-			"primary_key" => (string)$nodeId,
+			"primary_key" => $nodeId,
 			"device_nature" => $device_nature,
 			"name" => $name,
-			"object_id" => (string)$nodeId,
+			"object_id" => $nodeId,
 			"x" => "",
 			"y" => "",
 			"description" => "",
@@ -34,8 +33,7 @@ function createTopology($nodeId, $name, $device_nature, $subtype, $image, $statu
 			"image" => $image,
 			"color" => "#acd7e5",
 			"hidden" => "false",
-			"cluster_id" => "",
-			"status" => $status
+			"cluster_id" => ""
 		);
 
 		$place = _topology_exist_object_this_instance($nodeId);
@@ -43,13 +41,13 @@ function createTopology($nodeId, $name, $device_nature, $subtype, $image, $statu
 		unset($context['Nodes'][$place]["link"]);
 		$context['Nodes'][$place]["name"] = $name;
 		$context['Nodes'][$place]["image"] = $image;
-		$context['Nodes'][$place]["status"] = $status;
 	}
 
 	$context['Nodes_MAJ'][] = array(
 			"object_id" => $nodeId,
 			"primary_key" => $nodeId
 	);
+	logTofile("*** createTopology  nodeId: ".$nodeId. " name " .$name." subtype ". $subtype." place ". $place."\n");
 	//logTofile(debug_dump($context, "*** createTopology context \n"));
 
 	return $place;

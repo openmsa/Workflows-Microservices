@@ -4,13 +4,12 @@ require_once '/opt/fmc_repository/Process/Topology/Common/Topology_common.php';
 require_once '/opt/fmc_repository/Process/Reference/Common/Library/topology_rest.php';
 require_once '/opt/fmc_repository/Process/Reference/Common/common.php';
 
-function calculateDeviceTopology($deviceId, $name, $device_nature, $status) {
+function calculateDeviceTopology($deviceId, $name, $device_nature) {
 	global $context;
 
-	logTofile("*** calculateDeviceTopology  deviceId: $deviceId name: $name status: $status \n");
-
-	$customer_ref = get_customer_ref();
-    $nodePlace = createTopology($deviceId, $name, $device_nature, "router", "", $status);
+    logTofile("*** calculateDeviceTopology  deviceId: ".$deviceId." name: ".$name."\n");
+    $customer_ref = get_customer_ref();
+    $nodePlace = createTopology($deviceId, $name, $device_nature, "router", "style/topology/img/router_OK.svg");
     if (strpos($name, 'PE') !== false) {	
 	$instances_objname = "vrf";
 	$array = array (

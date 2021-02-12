@@ -113,7 +113,6 @@ Orchestration.update_asynchronous_task_details(*async_update_list, 'Remove ASN f
 
 IpamOrderObject.command_synchronize(300)
 
-
 #Clean up context
 del context['ce_connections']
 del context['ce_device_details']

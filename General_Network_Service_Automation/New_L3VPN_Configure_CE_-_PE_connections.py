@@ -181,7 +181,7 @@ for interface, connection in ce_connections.items():
     Orchestration.update_asynchronous_task_details(*async_update_list, 'Configuring PE device... BGP peer for {}... OK'.format(ce_device_name))
     pe_order_list[-1].command_synchronize(300)
 
-pretty_formatted_bar = list('------------')
+pretty_formatted_bar = list(12*'-')
 for counter in range(0, 12):
     pretty_formatted_bar.insert(0,'*')
     pretty_formatted_bar.pop()

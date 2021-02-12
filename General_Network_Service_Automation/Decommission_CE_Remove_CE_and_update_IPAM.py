@@ -73,7 +73,7 @@ ce_device_name = None
 
 #Find CE device name
 Orchestration.update_asynchronous_task_details(*async_update_list, 'Retrieve information about CE device on the site... ')
-while ce_device_name is None or counter < len(objects_list):
+while ce_device_name is None and counter < len(objects_list):
     util.log_to_process_file(process_id, 'DEBUG: {}'.format(IpamOrderObject.command_objects_instances_by_id(ms_ipam_device, objects_list[counter])))
     device_object = IpamOrderObject.command_objects_instances_by_id(ms_ipam_device, 
                                                                     objects_list[counter])[ms_ipam_device][objects_list[counter]]
@@ -118,7 +118,6 @@ ms_dict = {ms_ipam_device:
 IpamOrderObject.command_execute('UPDATE', ms_dict)
 Orchestration.update_asynchronous_task_details(*async_update_list, 'Update IPAM... OK')
 time.sleep(3)
-
 
 success_comment = 'CE device has been moved to {} on site {}'.format(context['status'], context['site'])
 del context['status']

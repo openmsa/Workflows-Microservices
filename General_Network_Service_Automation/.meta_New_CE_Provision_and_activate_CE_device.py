@@ -2,8 +2,12 @@
 <metadata>
     <map>
         <entry>
+            <key>DISPLAYNAME</key>
+            <value>New_CE_Provision_and_activate_CE_device.py</value>
+        </entry>
+        <entry>
             <key>DATE_MODIFICATION</key>
-            <value>1602160641226</value>
+            <value>1613143838873</value>
         </entry>
         <entry>
             <key>REPOSITORY</key>
@@ -11,7 +15,7 @@
         </entry>
         <entry>
             <key>DATE_CREATION</key>
-            <value>1602160641214</value>
+            <value>1613143838869</value>
         </entry>
         <entry>
             <key>TAG</key>

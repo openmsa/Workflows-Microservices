@@ -55,13 +55,19 @@ IpamOrderObject = Order(ipam_device_id)
 #Create CE device object
 CeDeviceObject = Device(device_id = ce_device_id,
                         device_external = ce_device_external_reference)
-pretty_formatted_bar = list('------------------------')
+pretty_formatted_bar = list(10*'-')
 Orchestration.update_asynchronous_task_details(*async_update_list, 'Provisioning of CE device... [{}]'.format(''.join(pretty_formatted_bar)))
 
 #If the device mgmt interface is REST-based, add required configuration variables
 if 'rest' in ce_local_context['interface'].lower():
     for variable, value in ce_local_context['msa_specific']['rest_headers'].items():
         CeDeviceObject.create_configuration_variable(name = variable, value = value)
+
+#Attach configuration profile
+Orchestration.update_asynchronous_task_details(*async_update_list, 'Attaching configuration deployment settings profile... ') 
+CeDeviceObject.profile_attach(ce_local_context['msa_specific']['deployment_settings_ref'])
+Orchestration.update_asynchronous_task_details(*async_update_list, 'Attaching configuration deployment settings profile... OK')
+time.sleep(3) 
 
 #Provision device
 CeDeviceObject.initial_provisioning()
@@ -70,33 +76,20 @@ CeDeviceObject.initial_provisioning()
 while CeDeviceObject.provision_status()['status'] != 'OK':
     pretty_formatted_bar.insert(0,'*')
     Orchestration.update_asynchronous_task_details(*async_update_list, 'Provisioning of CE device... [{}]'.format(''.join(pretty_formatted_bar)))
-    time.sleep(10)
+    time.sleep(5)
 
-for counter in range(0, 24):
+for counter in range(0, 10):
     pretty_formatted_bar.insert(0,'*')
     pretty_formatted_bar.pop()
     Orchestration.update_asynchronous_task_details(*async_update_list, 'Provisioning of CE device... [{}]'.format(''.join(pretty_formatted_bar)))
-    time.sleep(5)
+    time.sleep(3)
 
 Orchestration.update_asynchronous_task_details(*async_update_list, 'Provisioning of CE device... [{}] OK'.format(''.join(pretty_formatted_bar)))
 time.sleep(3) 
 
 
-
-#Attach configuration profile
-Orchestration.update_asynchronous_task_details(*async_update_list, 'Attaching configuration deployment settings profile... ') 
-CeDeviceObject.profile_attach(ce_local_context['msa_specific']['deployment_settings_ref'])
-
-
-
-#Create CE device order object
-CeOrderObject = Order(ce_device_id)
-response = CeOrderObject.command_synchronize(300)
-
 device_object = IpamOrderObject.command_objects_instances_by_id(ms_ipam_device, 
                                                                 ce_device_name)[ms_ipam_device][ce_device_name.replace('.', '_')]
-
-Orchestration.update_asynchronous_task_details(*async_update_list, 'Attaching configuration deployment settings profile... OK') 
 
 Orchestration.update_asynchronous_task_details(*async_update_list, 'Marking device {} as "ACTIVE" in IPAM system...'.format(ce_device_name))
 #Mark the device as Active in IPAM
