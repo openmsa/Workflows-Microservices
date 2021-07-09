@@ -62,6 +62,24 @@ function _device_create ($customer_id, $device_name, $manufacturer_id,
 }
 
 /**
+ * curl -u ncroot:Ub1qub3  -XGET http://localhost:80/ubi-api-rest/device/id/104
+ *
+ */
+function _device_read_by_id ($device_id) {
+
+        $msa_rest_api = "device/id/{$device_id}";
+        $curl_cmd = create_msa_operation_request(OP_GET, $msa_rest_api);
+        $response = perform_curl_operation($curl_cmd, "READ DEVICE BY ID");
+        $response = json_decode($response, true);
+        if ($response['wo_status'] !== ENDED) {
+                $response = json_encode($response);
+                return $response;
+        }
+        $response = prepare_json_response(ENDED, ENDED_SUCCESSFULLY, $response['wo_newparams']['response_body']);
+        return $response;
+}
+
+/**
  * <pre>
  *     curl -u ncroot:ubiqube  -XDELETE http://localhost:10080/ubi-api-rest/device/id/1671
  * </pre>
