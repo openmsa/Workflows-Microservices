@@ -1,0 +1,49 @@
+<ObjectDefinition>
+  <variables frozen="0">
+    <variable displayName="Server ME" name="params.device_id" startIncrement="0" type="Device" mandatoryArray="false" visible="true" description="" groupSeparator="" groupDisplayName="" displayOrder="0" increment="0" refServiceURI="" keepOnImport="false" editable="false" onlyDetailView="false" localVarNameMatch="" remoteVarNameMatch="" arrayCanAdd="true" arrayCanRemove="true" arrayCanMove="true" arrayCanEdit="true" displayNameHeader="" fullDisplayName="" default="" isMandatory="false" isUserLocked="false" isGrouped="false" isSearchable="false" isUniqueGlobal="false"/>
+    <variable displayName="ISO URI" name="params.iso_uri" startIncrement="0" type="String" mandatoryArray="false" visible="true" description="" groupSeparator="" groupDisplayName="" displayOrder="1" increment="0" refServiceURI="" keepOnImport="false" editable="false" onlyDetailView="false" localVarNameMatch="" remoteVarNameMatch="" arrayCanAdd="true" arrayCanRemove="true" arrayCanMove="true" arrayCanEdit="true" displayNameHeader="" fullDisplayName="" default="http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/mini.iso" isMandatory="false" isUserLocked="false" isGrouped="false" isSearchable="false" isUniqueGlobal="false"/>
+  </variables>
+  <example/>
+  <process name="Process/workflows/Install_OS_on_baremetal_server/Process_Install_OS">
+    <displayName>Install OS</displayName>
+    <type>CREATE</type>
+    <visibility>5</visibility>
+    <allowSchedule/>
+    <task name="Task_Define_variables.py">
+      <processPath>/opt/fmc_repository/Process/workflows/Install_OS_on_baremetal_server/Process_Install_OS/Tasks</processPath>
+      <displayName>Define variables</displayName>
+    </task>
+    <task name="Task_Turn_off_server.py">
+      <processPath>/opt/fmc_repository/Process/workflows/Install_OS_on_baremetal_server/Process_Install_OS/Tasks</processPath>
+      <displayName>Turn off server</displayName>
+    </task>
+    <task name="Task_Attach_virtual_media.py">
+      <processPath>/opt/fmc_repository/Process/workflows/Install_OS_on_baremetal_server/Process_Install_OS/Tasks</processPath>
+      <displayName>Attach virtual media</displayName>
+    </task>
+    <task name="Task_Change_one_time_boot_order.py">
+      <processPath>/opt/fmc_repository/Process/workflows/Install_OS_on_baremetal_server/Process_Install_OS/Tasks</processPath>
+      <displayName>Change one-time boot order</displayName>
+    </task>
+    <task name="Task_Turn_on_server.py">
+      <processPath>/opt/fmc_repository/Process/workflows/Install_OS_on_baremetal_server/Process_Install_OS/Tasks</processPath>
+      <displayName>Turn on server</displayName>
+    </task>
+  </process>
+  <process name="Process/workflows/Install_OS_on_baremetal_server/Process_Delete">
+    <displayName>Delete</displayName>
+    <type>DELETE</type>
+    <visibility>5</visibility>
+    <allowSchedule/>
+  </process>
+  <information>
+    <icon/>
+    <description>The workflow is proposed to launch installation process on baremetal server via Redfish API. It turn off a server, attaches ISO to virtual media via http link, changes one-time boot order and turn on the server.</description>
+    <displayField>service_id</displayField>
+    <serviceTaskType>python</serviceTaskType>
+    <order>10000</order>
+    <visibility>5</visibility>
+    <name>Install OS on baremetal server</name>
+    <group/>
+  </information>
+</ObjectDefinition>
